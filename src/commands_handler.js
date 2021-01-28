@@ -1,5 +1,13 @@
 import { loadFolder } from "./utils.js";
 
+/**
+ * @typedef {object} fileNode
+ * @property {string} path
+ * @property {Map<string, fileNode>} children
+ * @property {boolean} isDirectory
+ * @property {Function} run
+ */
+
 export class CommandsHandler {
     // private path: string;
     // private commandsNode: fileNode | null;
@@ -44,33 +52,39 @@ export class CommandsHandler {
      * @private
      */
     resolveCommandInternal(commands, node, args) {
-        const files = [commands[0] + ".js", commands[0] + ".mjs", "default.js", "default.mjs"];
+
+        function tryRun(commandName) {
+            if (node.children.has(commandName)) {
+                if (node.children.get(commandName).isDirectory) return;
+                node.children.get(commandName).run(...args);
+                return true;
+            } else return false;
+        }
+
         if (commands.length === 1) {
-            for (const file of files) {
-                if (node.children.has(file))
-                    if (node.children.get(file)?.isDirectory) return false;
-                return node.children.get(file)?.run(...args);
-            }
+            if (tryRun(commands[0] + ".js")) return true;
+            if (tryRun(commands[0] + ".mjs")) return true;
+            if (tryRun("default.js")) return true;
+            if (tryRun("default.mjs")) return true;
             return false;
         }
 
         if (node.children.has(commands[0])) {
-            if (!node.children.get(commands[0])?.isDirectory) return false;
-            return this.resolveCommandInternal(commands.slice(1), node.children.get(commands[0]), args)
+            const folder = node.children.get(commands[0]);
+            if (!folder.isDirectory) return;
+            return this.resolveCommandInternal(commands.slice(1), folder, args);
         }
+
+        if (tryRun(commands[0] + ".js")) return true;
 
         if (node.children.has("default")) {
-            if (!node.children.get("default")?.isDirectory) return false;
-            return this.resolveCommandInternal(commands.slice(1), node.children.get("default"), args)
+            const folder = node.children.get("default");
+            if (!folder.isDirectory) return;
+            return this.resolveCommandInternal(commands.slice(1), folder, args);
         }
 
-        files.forEach(file => {
-            if (node.children.has(file))
-                if (node.children.get(file)?.isDirectory) return false;
-            return node.children.get(file)?.run(...args);
-        })
+        if (tryRun("default.js")) return true;
 
-        return false;
-
+        return true;
     }
 }

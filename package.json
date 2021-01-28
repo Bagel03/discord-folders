@@ -1,6 +1,6 @@
 {
   "name": "discord-folders",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple and lightweight discord bot framework using based on your filesystem",
   "main": "./build/index.js",
   "scripts": {
@@ -19,6 +19,10 @@
     "@types/node": "^14.14.22",
     "colors": "^1.4.0",
     "discord.js": "^12.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bagel03/discord-folders.git"
   },
   "devDependencies": {}
 }
