@@ -6,7 +6,7 @@ require("colors");
 
 module.exports.logSuccess = (tag, reason = "", data = "", post = "") => {
     const prefix = tag ? `[${tag}]: ` : "";
-    console.log(`${(prefix + "✔: " + reason).green.bold} ${data.cyan.italic} ${post.green.bold}`);
+    console.log(`${(prefix + "✔ : " + reason).green.bold} ${data.cyan.italic} ${post.green.bold}`);
 }
 
 module.exports.logError = (tag, reason = "", data = "", post = "") => {
@@ -77,9 +77,9 @@ module.exports.loadFolder = async (path) => {
     }
 
     if (node.isDirectory) {
-        const children = await getChildren(path);
+        const children = await module.exports.getChildren(path);
         for (const subpath of children) {
-            node.children.set(subpath, await loadFolder(path + "/" + subpath));
+            node.children.set(subpath, await module.exports.loadFolder(path + "/" + subpath));
         }
 
     } else if (stats.isFile()) {

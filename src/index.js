@@ -1,5 +1,5 @@
 module.exports = {
-    Bot: require("./commands_handler.js"),
+    Bot: require("./Bot.js"),
     CommandsHandler: require("./commands_handler.js"),
     Listener: require("./listener.js")
 }

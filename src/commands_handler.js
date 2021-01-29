@@ -13,7 +13,7 @@ const defaultOptions = options;
  */
 
 
-export class CommandsHandler {
+module.exports = class CommandsHandler {
     // private path: string;
     // private commandsNode: fileNode | null;
     // private commands: Map<string, fileNode>;

@@ -1,14 +1,14 @@
 const { Client } = require("discord.js");
 const { existsSync } = require("fs");
 const { pathToFileURL } = require("url");
-const { CommandsHandler } = require("./commands_handler.js");
-const { Listener } = require("./listener.js");
+const CommandsHandler = require("./commands_handler.js");
+const Listener = require("./listener.js");
 const { logError, options } = require("./utils.js");
 
 
 const botOptions = { ...options, ...{ tag: "Bot" }, prefix: "!" };
 
-export class Bot {
+module.exports = class Bot {
 
     /**
      * 

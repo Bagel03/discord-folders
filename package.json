@@ -1,6 +1,6 @@
 {
   "name": "discord-folders",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A simple and lightweight discord bot framework using based on your filesystem",
   "main": "./src/index.js",
   "scripts": {

@@ -5,7 +5,7 @@ const { pathToFileURL } = require("url");
 const defaultOptions = options;
 
 
-export class Listener {
+module.exports = class Listener {
 
     /**
      * 
