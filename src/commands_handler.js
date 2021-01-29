@@ -1,4 +1,7 @@
-import { loadFolder } from "./utils.js";
+import { S_IFREG } from "constants";
+import { existsSync } from "fs";
+import { pathToFileURL } from "url";
+import { loadFolder, logError, logSuccess, options as defaultOptions } from "./utils.js";
 
 /**
  * @typedef {object} fileNode
@@ -13,8 +16,11 @@ export class CommandsHandler {
     // private commandsNode: fileNode | null;
     // private commands: Map<string, fileNode>;
 
-    /** @param {string} path */
-    constructor(path) {
+    /** 
+     * @param {string} path 
+     * @param {typeof defaultOptions} options
+     * */
+    constructor(path, options) {
         this.path = path;
 
         /** @type {Map<string, fileNode>} */
@@ -23,16 +29,38 @@ export class CommandsHandler {
         /** @type {fileNode} */
         this.commandsNode = null;
 
-        this.reload();
+        this.options = { ...defaultOptions, ...options }
+
+        if (this.options.autoLoad) {
+            this.reload();
+        }
     }
 
     async reload() {
         // Empty the current commands
         this.commands.clear();
 
+
+
+        if (!existsSync(pathToFileURL(this.path))) {
+            logError(this.options.tag, "Could not retrieve commands folder:", this.path, "was not found")
+            return;
+        }
+
+
+        if (this.options.verbose) {
+            logSuccess(this.options.tag, "Searching ", this.path, "for commands...");
+        }
+
+
         //Load everything back in
-        this.commandsNode = (await loadFolder(this.path));
+        this.commandsNode = await loadFolder(this.path);
         this.commands = this.commandsNode.children;
+
+        if (this.options.verbose) {
+            logSuccess(this.options.tag, "Found", this.commands.size + "", "top level commands");
+            logSuccess(this.options.tag, "Commands from", this.path, "are now initialized");
+        }
     }
 
     /**

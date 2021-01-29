@@ -1,7 +1,26 @@
 import { lstat, readdir, Stats } from "fs";
-import { dirname } from "path";
-import { fileURLToPath, pathToFileURL } from "url";
+import "colors";
+import { pathToFileURL } from "url";
 
+
+
+export const logSuccess = (tag, reason = "", data = "", post = "") => {
+    const prefix = tag ? `[${tag}]: ` : "";
+    console.log(`${(prefix + "✔: " + reason).green.bold} ${data.cyan.italic} ${post.green.bold}`);
+}
+
+export const logError = (tag, reason = "", data = "", post = "") => {
+    const prefix = tag ? `[${tag}]: ` : "";
+    console.log(`${(prefix + "⚠ : " + reason).red.bold} ${data.cyan.italic} ${post.red.bold}`);
+}
+
+
+export const options = {
+    tag: "",
+    verbose: true,
+    autoLoad: true,
+    exclude: /^!/
+}
 
 
 /**
@@ -9,7 +28,7 @@ import { fileURLToPath, pathToFileURL } from "url";
  * @param {string} path
  * @returns {Promise<Stats>} 
  */
-export const loadDir = (path) => {
+const loadDir = (path) => {
     return new Promise((res, rej) => {
         lstat(path, (err, stats) => {
             if (err) rej(err);
@@ -58,9 +77,11 @@ export const loadFolder = async (path) => {
     }
 
     if (node.isDirectory) {
-        (await getChildren(path)).forEach(async subpath => {
+        const children = await getChildren(path);
+        for (const subpath of children) {
             node.children.set(subpath, await loadFolder(path + "/" + subpath));
-        })
+        }
+
     } else if (stats.isFile()) {
         const module = await import(pathToFileURL(path));
         node.run = typeof module === "function" ? module : module.default;
