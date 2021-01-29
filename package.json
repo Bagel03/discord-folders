@@ -1,8 +1,8 @@
 {
   "name": "discord-folders",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple and lightweight discord bot framework using based on your filesystem",
-  "main": "./build/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "node console.log(\"working\");"
   },
