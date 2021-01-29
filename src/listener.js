@@ -1,7 +1,8 @@
-import { loadFolder, logError, logSuccess, options as defaultOptions } from "./utils.js";
-import { Client } from "discord.js";
-import { existsSync } from "fs";
-import { pathToFileURL } from "url";
+const { loadFolder, logError, logSuccess, options } = require("./utils.js");
+const { Client } = require("discord.js");
+const { existsSync } = require("fs");
+const { pathToFileURL } = require("url");
+const defaultOptions = options;
 
 
 export class Listener {

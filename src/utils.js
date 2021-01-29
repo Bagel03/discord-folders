@@ -1,21 +1,21 @@
-import { lstat, readdir, Stats } from "fs";
-import "colors";
-import { pathToFileURL } from "url";
+const { lstat, readdir, Stats } = require("fs");
+const { pathToFileURL } = require("url");
+require("colors");
 
 
 
-export const logSuccess = (tag, reason = "", data = "", post = "") => {
+module.exports.logSuccess = (tag, reason = "", data = "", post = "") => {
     const prefix = tag ? `[${tag}]: ` : "";
     console.log(`${(prefix + "✔: " + reason).green.bold} ${data.cyan.italic} ${post.green.bold}`);
 }
 
-export const logError = (tag, reason = "", data = "", post = "") => {
+module.exports.logError = (tag, reason = "", data = "", post = "") => {
     const prefix = tag ? `[${tag}]: ` : "";
     console.log(`${(prefix + "⚠ : " + reason).red.bold} ${data.cyan.italic} ${post.red.bold}`);
 }
 
 
-export const options = {
+module.exports.options = {
     tag: "",
     verbose: true,
     autoLoad: true,
@@ -44,7 +44,7 @@ const loadDir = (path) => {
  * @param {string} path 
  * @returns {Promise<string[]>}
  */
-export const getChildren = (path) => {
+module.exports.getChildren = (path) => {
     return new Promise((res, rej) => {
         readdir(path, (err, files) => {
             if (err) rej(err);
@@ -65,7 +65,7 @@ export const getChildren = (path) => {
  * 
  * @param {string} path 
  */
-export const loadFolder = async (path) => {
+module.exports.loadFolder = async (path) => {
     const stats = await loadDir(path);
 
     /** @type {fileNode} */

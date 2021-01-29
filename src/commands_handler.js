@@ -1,7 +1,8 @@
-import { S_IFREG } from "constants";
-import { existsSync } from "fs";
-import { pathToFileURL } from "url";
-import { loadFolder, logError, logSuccess, options as defaultOptions } from "./utils.js";
+const { existsSync } = require("fs");
+const { pathToFileURL } = require("url");
+const { loadFolder, logError, logSuccess, options } = require("./utils.js");
+const defaultOptions = options;
+
 
 /**
  * @typedef {object} fileNode
@@ -10,6 +11,7 @@ import { loadFolder, logError, logSuccess, options as defaultOptions } from "./u
  * @property {boolean} isDirectory
  * @property {Function} run
  */
+
 
 export class CommandsHandler {
     // private path: string;

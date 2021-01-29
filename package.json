@@ -1,6 +1,6 @@
 {
   "name": "discord-folders",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "A simple and lightweight discord bot framework using based on your filesystem",
   "main": "./src/index.js",
   "scripts": {
@@ -19,6 +19,16 @@
     "@types/node": "^14.14.22",
     "colors": "^1.4.0",
     "discord.js": "^12.5.1"
+  },
+  "exports": {
+    ".": [
+      {
+        "require": "./src/index.js",
+        "import": "./src/index.mjs"
+      },
+      "./src/index.js"
+    ],
+    "./esm": "./esm/discord.mjs"
   },
   "repository": {
     "type": "git",

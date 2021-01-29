@@ -1,3 +1,5 @@
-export { Bot } from "./bot.js";
-export { CommandsHandler } from "./commands_handler.js";
-export { Listener } from "./listener";
+module.exports = {
+    Bot: require("./commands_handler.js"),
+    CommandsHandler: require("./commands_handler.js"),
+    Listener: require("./listener.js")
+}
